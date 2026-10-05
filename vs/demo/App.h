@@ -22,6 +22,18 @@ public:
 private:
 	inline static App* s_pApp = nullptr;
 
+	//Le coffre sous ton lit
+	cpu_mesh mesh;
+	cpu_material material;
+	cpu_entity* test = nullptr;
+	cpu_mesh mesh2;
+	cpu_material material2;
+	cpu_entity* test2 = nullptr;
+	cpu_entity* test3 = nullptr;
+	cpu_entity* test4 = nullptr;
+
+	int mult = 2.0f;
+
 	// Resources
 	cpu_font m_font;
 	cpu_mesh m_meshShip;

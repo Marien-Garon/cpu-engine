@@ -79,12 +79,12 @@ void App::OnStart()
 
 	// 3D
 	m_missileSpeed = 10.0f;
-	m_pEarth = cpuEngine.CreateEntity();
-	m_pEarth->pMesh = &m_meshSphere;
-	m_pEarth->pMaterial = &m_materialEarth;
-	m_pEarth->transform.pos.x = 3.0f;
-	m_pEarth->transform.pos.y = 3.0f;
-	m_pEarth->transform.pos.z = 5.0f;
+	//m_pEarth = cpuEngine.CreateEntity();
+	//m_pEarth->pMesh = &m_meshSphere;
+	//m_pEarth->pMaterial = &m_materialEarth;
+	//m_pEarth->transform.pos.x = 3.0f;
+	//m_pEarth->transform.pos.y = 3.0f;
+	//m_pEarth->transform.pos.z = 5.0f;
 	m_pMoon = cpuEngine.CreateEntity();
 	m_pMoon->pMesh = &m_meshSphere;
 	m_pMoon->pMaterial = &m_materialMoon;
@@ -104,10 +104,44 @@ void App::OnStart()
 	m_pEmitter->colorMax = cpu::ToColor(255, 128, 0);
 	m_pEmitter2 = cpuEngine.CreateParticleEmitter();
 	m_pEmitter2->rate = 0.25f;
-	m_pEmitter2->colorMin = cpu::ToColor(0, 0, 255);
+	m_pEmitter2->colorMin = cpu::ToColor(128, 50, 255);
 	m_pEmitter2->colorMax = cpu::ToColor(0, 128, 255);
 	m_pEmitter2->pos.x = -2.0f;
 
+
+	mesh.CreateCube(0.5f, CPU_RED);
+
+	material.color = cpu::ToColor(255, 128, 0);
+	test = cpuEngine.CreateEntity();
+	test->pMesh = &mesh;
+	test->pMaterial = &material;
+	test->transform.pos.x = 0.f;
+	test->transform.pos.y = 0.f;
+	test->transform.pos.z = 0.f;
+
+	mesh2.CreateCube(0.5f, CPU_RED);
+
+	material.color = cpu::ToColor(255, 128, 0);
+	test2 = cpuEngine.CreateEntity();
+	test2->pMesh = &mesh;
+	test2->pMaterial = &material;
+	test2->transform.pos.x = 0.f;
+	test2->transform.pos.y = 0.f;
+	test2->transform.pos.z = 0.f;
+
+	test3 = cpuEngine.CreateEntity();
+	test3->pMesh = &mesh;
+	test3->pMaterial = &material;
+	test3->transform.pos.x = 0.f;
+	test3->transform.pos.y = 0.f;
+	test3->transform.pos.z = 0.f;
+
+	test4 = cpuEngine.CreateEntity();
+	test4->pMesh = &mesh;
+	test4->pMaterial = &material;
+	test4->transform.pos.x = 0.f;
+	test4->transform.pos.y = 0.f;
+	test4->transform.pos.z = 0.f;
 	// Test
 	//m_pEmitter->blend = CPU_PARTICLE_OPAQUE;
 	//m_pEmitter->colorMin = cpu::ToColor(0, 0, 0);
@@ -142,10 +176,15 @@ void App::OnUpdate()
 	m_pSprite->y = 60 + cpu::RoundToInt(sinf(time)*20.0f);
 
 	// Turn earth
-	m_pEarth->transform.AddYPR(-dt);
+	//m_pEarth->transform.AddYPR(-dt);
+
+	test2->transform.OrbitAroundAxis(test->transform.pos, CPU_VEC3_UP, 2.0f, time * 6.f);
+	test3->transform.OrbitAroundAxis(test->transform.pos, CPU_VEC3_RIGHT, 4.0f, time * 4.f);
+	test4->transform.OrbitAroundAxis(test->transform.pos, CPU_VEC3_ONE, 6.0f, time * 2.f);
+	//test->transform.OrbitAroundAxis(test2->transform.pos, CPU_VEC3_UP, 3.0f, time * mult);
 
 	// Move rock
-	m_pMoon->transform.OrbitAroundAxis(m_pEarth->transform.pos, CPU_VEC3_UP, 3.0f, time*2.0f);
+	//m_pMoon->transform.OrbitAroundAxis(m_pEarth->transform.pos, CPU_VEC3_UP, 3.0f, time*2.0f);
 	m_pEmitter->pos = m_pMoon->transform.pos;
 	m_pEmitter->dir = m_pMoon->transform.dir;
 	m_pEmitter->dir.x = -m_pEmitter->dir.x; 
