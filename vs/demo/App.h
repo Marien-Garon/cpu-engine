@@ -23,8 +23,8 @@ private:
 	inline static App* s_pApp = nullptr;
 
 	//Le coffre sous ton lit
-	cpu_mesh mesh;
-	cpu_material material;
+	cpu_mesh track_mesh;
+	cpu_material track_material;
 	cpu_entity* test = nullptr;
 	cpu_mesh mesh2;
 	cpu_material material2;

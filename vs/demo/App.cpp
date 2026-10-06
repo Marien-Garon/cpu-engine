@@ -109,11 +109,11 @@ void App::OnStart()
 	m_pEmitter2->pos.x = -2.0f;
 
 
-	mesh.CreateCube(0.5f, CPU_RED);
+	circle_mesh.CreateCube(0.5f, CPU_RED);
 
 	material.color = cpu::ToColor(255, 128, 0);
 	test = cpuEngine.CreateEntity();
-	test->pMesh = &mesh;
+	test->pMesh = &circle_mesh;
 	test->pMaterial = &material;
 	test->transform.pos.x = 0.f;
 	test->transform.pos.y = 0.f;
@@ -123,21 +123,21 @@ void App::OnStart()
 
 	material.color = cpu::ToColor(255, 128, 0);
 	test2 = cpuEngine.CreateEntity();
-	test2->pMesh = &mesh;
+	test2->pMesh = &circle_mesh;
 	test2->pMaterial = &material;
 	test2->transform.pos.x = 0.f;
 	test2->transform.pos.y = 0.f;
 	test2->transform.pos.z = 0.f;
 
 	test3 = cpuEngine.CreateEntity();
-	test3->pMesh = &mesh;
+	test3->pMesh = &circle_mesh;
 	test3->pMaterial = &material;
 	test3->transform.pos.x = 0.f;
 	test3->transform.pos.y = 0.f;
 	test3->transform.pos.z = 0.f;
 
 	test4 = cpuEngine.CreateEntity();
-	test4->pMesh = &mesh;
+	test4->pMesh = &circle_mesh;
 	test4->pMaterial = &material;
 	test4->transform.pos.x = 0.f;
 	test4->transform.pos.y = 0.f;
@@ -195,6 +195,7 @@ void App::OnUpdate()
 	cpuEngine.GetCamera()->transform.AddYPR(0.0f, 0.0f, dt*0.1f);
 
 	// Move ship
+
 	if ( cpuInput.IsUp() )
 		cpuEngine.GetCamera()->transform.Move(dt*1.0f);
 	if ( cpuInput.IsDown() )
