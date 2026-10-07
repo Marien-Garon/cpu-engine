@@ -19,22 +19,23 @@ App::~App()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void App::CreateObstacle()
+{
+
+}
+
 void App::OnStart()
 {
 	// YOUR CODE HERE
-	//m_EarthTexture.Load("earth.png");
-	//m_EarthMaterial.pTexture = &m_EarthTexture;
+
 	m_font.Create(cpuDevice.GetHeight() <= 512 ? 14 : 28);
-	track_mesh.CreateTube(0.1f, 4.f, 32);
+	track_mesh.CreateTube(0.1f, 5.f, 32);
+	//track_mesh.CreateCircle(1.f, 16.f);
 	center_mesh.CreateSphere(0.5f, 16, 16);
 	floor_mesh.CreateCylinder(0.001f, 6.f, 6, true, false);
 
-	//m_pEarth = cpuEngine.CreateEntity();
-	//m_pEarth->pMesh = &circle_mesh;
-	//m_pEarth->pMaterial = &m_EarthMaterial;
-	//m_pEarth->transform.pos.x = 3.0f;
-	//m_pEarth->transform.pos.y = 3.0f;
-	//m_pEarth->transform.pos.z = 5.0f;
+	player_mesh.CreateCube(0.5f);
+
 
 	track_material.color = cpu::ToColor(200, 20, 60);
 	basic_material.color = cpu::ToColor(200, 200, 200);
@@ -56,12 +57,16 @@ void App::OnStart()
 	track->transform.pos.z = 0.f;
 	track->transform.AddYPR(0.f, 0.f, 0.f);
 
-	floor = cpuEngine.CreateEntity();
-	floor->pMesh = &floor_mesh;
-	floor->pMaterial = &basic_material;
-	floor->transform.pos.x = 0.f;
-	floor->transform.pos.y = -2.f;
-	floor->transform.pos.z = 0.f;
+	player = cpuEngine.CreateEntity();
+	player->pMesh = &player_mesh;
+	player->pMaterial = &basic_material;
+	player->transform.pos.x = 0.f;
+	player->transform.pos.y = 0.f;
+	player->transform.pos.z = 0.f;
+
+	cpuEngine.GetCamera()->transform.pos.x = 6.f;
+	cpuEngine.GetCamera()->transform.pos.y = 10.f;
+	cpuEngine.GetCamera()->transform.pos.z = 5.f;
 }
 
 void App::OnUpdate()
@@ -85,9 +90,10 @@ void App::OnUpdate()
 	m_angle += m_speed * dt;
 
 	//circle->transform.LookAt(cpuEngine.GetCamera()->transform.pos.x, cpuEngine.GetCamera()->transform.pos.y, cpuEngine.GetCamera()->transform.pos.z, CPU_VEC3_RIGHT);
-	cpuEngine.GetCamera()->transform.OrbitAroundAxis(center->transform.pos, CPU_VEC3_UP, 5.f, m_angle);
-	cpuEngine.GetCamera()->transform.LookAt(ray.dir.x * 5, ray.dir.y * 5, ray.dir.z * 5, CPU_VEC3_UP);
-
+	player->transform.OrbitAroundAxis(center->transform.pos, CPU_VEC3_UP, 5.f, m_angle);
+	player->transform.LookAt(center->transform.pos.x, center->transform.pos.y, center->transform.pos.z, CPU_VEC3_UP);
+	//cpuEngine.GetCamera()->transform.LookAt(ray.dir.x / 100000000, ray.dir.y / 10000000, ray.dir.z / 10000000, CPU_VEC3_UP);
+	cpuEngine.GetCamera()->transform.LookAt(0.f, 0.f, 1.f, CPU_VEC3_UP);
 }
 
 void App::OnExit()

@@ -8,6 +8,8 @@ public:
 
 	static App& GetInstance() { return *s_pApp; }
 
+	void CreateObstacle();
+
 	void OnStart();
 	void OnUpdate();
 	void OnExit();
@@ -21,12 +23,16 @@ private:
 	cpu_mesh track_mesh;
 	cpu_mesh center_mesh;
 	cpu_mesh floor_mesh;
+	cpu_mesh player_mesh;
 	cpu_material track_material;
 	cpu_material basic_material;
 	cpu_entity* track = nullptr;
 
 	cpu_entity* center = nullptr;
 	cpu_entity* floor = nullptr;
+	cpu_entity* player = nullptr;
+
+	std::vector<cpu_entity*> obstacle_list;
 
 	cpu_font m_font;
 
