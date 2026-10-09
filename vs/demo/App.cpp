@@ -55,114 +55,114 @@ void App::OnStart()
 	// Render
 	//cpuEngine.EnableBoxRender();
 
-	// Resources
-	m_font.Create(cpuDevice.GetHeight()<=512 ? 14 : 28);
-	m_textureBird.Load("bird_amiga.png");
-	m_textureEarth.Load("earth.png");
-	m_meshShip.CreateSpaceship();
-	m_meshMissile.CreateSphere(0.5f);
-	m_meshSphere.CreateSphere(2.0f, 12, 12);
-	m_rts[0] = cpuEngine.CreateRT();
+	//// Resources
+	//m_font.Create(cpuDevice.GetHeight()<=512 ? 14 : 28);
+	//m_textureBird.Load("bird_amiga.png");
+	//m_textureEarth.Load("earth.png");
+	//m_meshShip.CreateSpaceship();
+	//m_meshMissile.CreateSphere(0.5f);
+	//m_meshSphere.CreateSphere(2.0f, 12, 12);
+	//m_rts[0] = cpuEngine.CreateRT();
 
-	// UI
-	m_pSprite = cpuEngine.CreateSprite();
-	m_pSprite->pTexture = &m_textureBird;
-	m_pSprite->CenterAnchor();
-	m_pSprite->x = 40;
-	m_pSprite->y = 0;
+	//// UI
+	//m_pSprite = cpuEngine.CreateSprite();
+	//m_pSprite->pTexture = &m_textureBird;
+	//m_pSprite->CenterAnchor();
+	//m_pSprite->x = 40;
+	//m_pSprite->y = 0;
 
-	// Shader
-	m_materialShip.color = cpu::ToColor(255, 128, 0);
-	m_materialMissile.ps = MissileShader;
-	m_materialMoon.ps = MoonShader;
-	m_materialEarth.pTexture = &m_textureEarth;
+	//// Shader
+	//m_materialShip.color = cpu::ToColor(255, 128, 0);
+	//m_materialMissile.ps = MissileShader;
+	//m_materialMoon.ps = MoonShader;
+	//m_materialEarth.pTexture = &m_textureEarth;
 
-	// 3D
-	m_missileSpeed = 10.0f;
-	//m_pEarth = cpuEngine.CreateEntity();
-	//m_pEarth->pMesh = &m_meshSphere;
-	//m_pEarth->pMaterial = &m_materialEarth;
-	//m_pEarth->transform.pos.x = 3.0f;
-	//m_pEarth->transform.pos.y = 3.0f;
-	//m_pEarth->transform.pos.z = 5.0f;
-	m_pMoon = cpuEngine.CreateEntity();
-	m_pMoon->pMesh = &m_meshSphere;
-	m_pMoon->pMaterial = &m_materialMoon;
-	m_pMoon->transform.SetScaling(0.1f);
+	//// 3D
+	//m_missileSpeed = 10.0f;
+	////m_pEarth = cpuEngine.CreateEntity();
+	////m_pEarth->pMesh = &m_meshSphere;
+	////m_pEarth->pMaterial = &m_materialEarth;
+	////m_pEarth->transform.pos.x = 3.0f;
+	////m_pEarth->transform.pos.y = 3.0f;
+	////m_pEarth->transform.pos.z = 5.0f;
+	//m_pMoon = cpuEngine.CreateEntity();
+	//m_pMoon->pMesh = &m_meshSphere;
+	//m_pMoon->pMaterial = &m_materialMoon;
+	//m_pMoon->transform.SetScaling(0.1f);
 
-	// Ship
-	m_pShip = new Ship;
-	m_pShip->Create(&m_meshShip, &m_materialShip);
-	m_pShip->GetFSM()->ToState(CPU_ID(StateShipIdle));
+	//// Ship
+	//m_pShip = new Ship;
+	//m_pShip->Create(&m_meshShip, &m_materialShip);
+	//m_pShip->GetFSM()->ToState(CPU_ID(StateShipIdle));
 
-	// Particle
-	cpuEngine.GetParticleData()->Create(2000000);
-	cpuEngine.GetParticlePhysics()->gy = -0.5f;
-	m_pEmitter = cpuEngine.CreateParticleEmitter();
-	m_pEmitter->rate = 1.0f;
-	m_pEmitter->colorMin = cpu::ToColor(255, 0, 0);
-	m_pEmitter->colorMax = cpu::ToColor(255, 128, 0);
-	m_pEmitter2 = cpuEngine.CreateParticleEmitter();
-	m_pEmitter2->rate = 0.25f;
-	m_pEmitter2->colorMin = cpu::ToColor(128, 50, 255);
-	m_pEmitter2->colorMax = cpu::ToColor(0, 128, 255);
-	m_pEmitter2->pos.x = -2.0f;
+	//// Particle
+	//cpuEngine.GetParticleData()->Create(2000000);
+	//cpuEngine.GetParticlePhysics()->gy = -0.5f;
+	//m_pEmitter = cpuEngine.CreateParticleEmitter();
+	//m_pEmitter->rate = 1.0f;
+	//m_pEmitter->colorMin = cpu::ToColor(255, 0, 0);
+	//m_pEmitter->colorMax = cpu::ToColor(255, 128, 0);
+	//m_pEmitter2 = cpuEngine.CreateParticleEmitter();
+	//m_pEmitter2->rate = 0.25f;
+	//m_pEmitter2->colorMin = cpu::ToColor(128, 50, 255);
+	//m_pEmitter2->colorMax = cpu::ToColor(0, 128, 255);
+	//m_pEmitter2->pos.x = -2.0f;
 
 
-	circle_mesh.CreateCube(0.5f, CPU_RED);
+	//circle_mesh.CreateCube(0.5f, CPU_RED);
 
-	material.color = cpu::ToColor(255, 128, 0);
-	test = cpuEngine.CreateEntity();
-	test->pMesh = &circle_mesh;
-	test->pMaterial = &material;
-	test->transform.pos.x = 0.f;
-	test->transform.pos.y = 0.f;
-	test->transform.pos.z = 0.f;
+	//material.color = cpu::ToColor(255, 128, 0);
+	//test = cpuEngine.CreateEntity();
+	//test->pMesh = &circle_mesh;
+	//test->pMaterial = &material;
+	//test->transform.pos.x = 0.f;
+	//test->transform.pos.y = 0.f;
+	//test->transform.pos.z = 0.f;
 
-	mesh2.CreateCube(0.5f, CPU_RED);
+	//mesh2.CreateCube(0.5f, CPU_RED);
 
-	material.color = cpu::ToColor(255, 128, 0);
-	test2 = cpuEngine.CreateEntity();
-	test2->pMesh = &circle_mesh;
-	test2->pMaterial = &material;
-	test2->transform.pos.x = 0.f;
-	test2->transform.pos.y = 0.f;
-	test2->transform.pos.z = 0.f;
+	//material.color = cpu::ToColor(255, 128, 0);
+	//test2 = cpuEngine.CreateEntity();
+	//test2->pMesh = &circle_mesh;
+	//test2->pMaterial = &material;
+	//test2->transform.pos.x = 0.f;
+	//test2->transform.pos.y = 0.f;
+	//test2->transform.pos.z = 0.f;
 
-	test3 = cpuEngine.CreateEntity();
-	test3->pMesh = &circle_mesh;
-	test3->pMaterial = &material;
-	test3->transform.pos.x = 0.f;
-	test3->transform.pos.y = 0.f;
-	test3->transform.pos.z = 0.f;
+	//test3 = cpuEngine.CreateEntity();
+	//test3->pMesh = &circle_mesh;
+	//test3->pMaterial = &material;
+	//test3->transform.pos.x = 0.f;
+	//test3->transform.pos.y = 0.f;
+	//test3->transform.pos.z = 0.f;
 
-	test4 = cpuEngine.CreateEntity();
-	test4->pMesh = &circle_mesh;
-	test4->pMaterial = &material;
-	test4->transform.pos.x = 0.f;
-	test4->transform.pos.y = 0.f;
-	test4->transform.pos.z = 0.f;
-	// Test
-	//m_pEmitter->blend = CPU_PARTICLE_OPAQUE;
-	//m_pEmitter->colorMin = cpu::ToColor(0, 0, 0);
-	//m_pEmitter->colorMax = cpu::ToColor(16, 16, 16);
+	//test4 = cpuEngine.CreateEntity();
+	//test4->pMesh = &circle_mesh;
+	//test4->pMaterial = &material;
+	//test4->transform.pos.x = 0.f;
+	//test4->transform.pos.y = 0.f;
+	//test4->transform.pos.z = 0.f;
+	//// Test
+	////m_pEmitter->blend = CPU_PARTICLE_OPAQUE;
+	////m_pEmitter->colorMin = cpu::ToColor(0, 0, 0);
+	////m_pEmitter->colorMax = cpu::ToColor(16, 16, 16);
 
-	// Debug: texture
-	//float roomSize = 100.0f;
-	//cpu_mesh* pMesh = new cpu_mesh;
-	//pMesh->CreatePlane(roomSize, roomSize);
-	//XMMATRIX matrix = XMMatrixRotationX(XM_PIDIV2);
-	//pMesh->Transform(matrix);
-	//matrix = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
-	//pMesh->Transform(matrix);
-	//pMesh->Optimize();
-	//cpu_entity* pE = cpuEngine.CreateEntity();
-	//pE->pMesh = pMesh;
-	//pE->pMaterial = new cpu_material;
-	//pE->pMaterial->pTexture = &m_textureEarth;
+	//// Debug: texture
+	////float roomSize = 100.0f;
+	////cpu_mesh* pMesh = new cpu_mesh;
+	////pMesh->CreatePlane(roomSize, roomSize);
+	////XMMATRIX matrix = XMMatrixRotationX(XM_PIDIV2);
+	////pMesh->Transform(matrix);
+	////matrix = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
+	////pMesh->Transform(matrix);
+	////pMesh->Optimize();
+	////cpu_entity* pE = cpuEngine.CreateEntity();
+	////pE->pMesh = pMesh;
+	////pE->pMaterial = new cpu_material;
+	////pE->pMaterial->pTexture = &m_textureEarth;
 
-	// Camera
-	cpuEngine.GetCamera()->transform.pos.z = -5.0f;
+	//// Camera
+	//cpuEngine.GetCamera()->transform.pos.z = -5.0f;
 }
 
 void App::OnUpdate()

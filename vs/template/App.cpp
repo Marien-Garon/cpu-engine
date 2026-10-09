@@ -1,6 +1,18 @@
 #include "pch.h"
 #include <iostream>
+#include <random>
 
+template<typename T>
+T GetRandomNumber(T min, T max)
+{
+	static std::random_device rd;
+
+	static std::mt19937 gen(rd());
+
+	std::uniform_int_distribution<> dis(min, max);
+
+	return dis(gen);
+}
 
 App::App()
 {
@@ -21,7 +33,19 @@ App::~App()
 
 void App::CreateObstacle()
 {
+	cpu_entity* obs = cpuEngine.CreateEntity();
+	obs->pMesh = &obstacle_mesh;
+	obs->pMaterial = &basic_material;
 
+	float a = GetRandomNumber(0.f, XM_2PI);
+
+	obs->transform.pos.y = 10.f;
+	obs->transform.pos.x = cos(a) * spawn_radius;
+	obs->transform.pos.z = sin(a) * spawn_radius;
+	obs->transform.dir.x = 0.f;
+	obs->transform.dir.y = -1.f;
+	obs->transform.dir.z = 0.f;
+	obstacle_list.push_back(obs);
 }
 
 void App::OnStart()
@@ -30,8 +54,8 @@ void App::OnStart()
 
 	m_font.Create(cpuDevice.GetHeight() <= 512 ? 14 : 28);
 	track_mesh.CreateTube(0.1f, 5.f, 32);
-	//track_mesh.CreateCircle(1.f, 16.f);
 	center_mesh.CreateSphere(0.5f, 16, 16);
+	obstacle_mesh.CreateSphere();
 	floor_mesh.CreateCylinder(0.001f, 6.f, 6, true, false);
 
 	player_mesh.CreateCube(0.5f);
@@ -75,6 +99,16 @@ void App::OnUpdate()
 
 	float dt = cpuTime.delta;
 	float time = cpuTime.total;
+	
+	game_timer -= dt;
+
+	spawn_timer -= dt;
+	if (spawn_timer < 0.f)
+	{
+		spawn_timer = 10.f;
+		CreateObstacle();
+	}
+
 
 	cpu_camera* camera = cpuEngine.GetCamera();
 	cpu_ray ray;
@@ -94,6 +128,33 @@ void App::OnUpdate()
 	player->transform.LookAt(center->transform.pos.x, center->transform.pos.y, center->transform.pos.z, CPU_VEC3_UP);
 	//cpuEngine.GetCamera()->transform.LookAt(ray.dir.x / 100000000, ray.dir.y / 10000000, ray.dir.z / 10000000, CPU_VEC3_UP);
 	cpuEngine.GetCamera()->transform.LookAt(0.f, 0.f, 1.f, CPU_VEC3_UP);
+
+	for (auto it = obstacle_list.begin(); it != obstacle_list.end(); ++it)
+	{	
+		cpu_entity* obs = *it;
+		obs->transform.Move(dt * 2.f);
+		if (obs->lifetime > 5.f)
+		{
+			cpuEngine.Release(obs);
+			game_timer -= 10.f;
+		}
+		if (player->aabb.Contains(obs->transform.pos))
+		{
+			cpuEngine.Release(obs);
+			score += 1;
+		}
+	}
+
+	for (auto it = obstacle_list.begin(); it != obstacle_list.end();)
+	{
+		if ((*it)->dead)
+			it = obstacle_list.erase(it);
+		else
+			++it;
+	}
+
+	if (cpuInput.IsBackPressed())
+		cpuEngine.Quit();
 }
 
 void App::OnExit()
@@ -127,9 +188,8 @@ void App::OnRender(int pass)
 			// Debug
 			cpu_stats& stats = *cpuEngine.GetStats();
 			std::string info = CPU_STR(cpuTime.fps) + " fps, ";
-			info += "Camera pos :\nx = " + CPU_STR(cpuEngine.GetCamera()->transform.pos.x);
-			info += "\ny = " + CPU_STR(cpuEngine.GetCamera()->transform.pos.y);
-			info += "\nz = " + CPU_STR(cpuEngine.GetCamera()->transform.pos.z);
+			info += "Score : " + CPU_STR(score);
+			info += "\nTimer : " + CPU_STR(static_cast<int>(game_timer)) + "s";
 
 			XMFLOAT3 tint = { 1.0f, 1.0f, 0.8f };
 			cpuDevice.DrawText(&m_font, info.c_str(), (int)(cpuDevice.GetWidth() * 0.5f), 10, CPU_TEXT_CENTER, &tint);
